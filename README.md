@@ -2,21 +2,17 @@
 
 선린인터넷고등학교 안드로이드 기초 소수전공 교육 자료
 
-- Android Project 생성 -> Build
-- Git, Github
-- Life Cycle
-- View Widget
- - TextView
- - Button
- - EditText
- - ImageView
- - ListView
-  - CustomListView...
+- 안드로이드 스튜디오 프로젝트 생성 및 빌드
+- Git 사용법
 - Layout
  - LinearLayout
  - RelativeLayout
-- Intent
-- Managing Value
- - String
- - Color
+- View
+ - Button, TextView, EditText, ImageView
+ - ListView
+- Constant 관리 - String, Color, Dimension
+- Activity Intent, Result Callback 3시간
+- LifeCylce
 - SharedPreference
+- CustomListView
+- 자바 객체지향 이해
