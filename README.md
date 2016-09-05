@@ -11,7 +11,7 @@
  - Button, TextView, EditText, ImageView
  - ListView
 - Constant 관리 - String, Color, Dimension
-- Activity Intent, Result Callback 3시간
+- Activity Intent, Result Callback
 - LifeCylce
 - SharedPreference
 - CustomListView
