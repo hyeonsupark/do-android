@@ -14,8 +14,8 @@
  - 여러 액티비티가 있지만 기본적으론 `Blank Activity`
  
 4. 액티비티 설정
- - ActivityName: 액티비티 이름 / 자바 코드의 클래스가 되므로 자바 클래스 네이밍 규칙을 따름(ex: MainActivity)
- - LayoutName: 레이아웃 이름 / Xml 파일로 보통 컴포넌트_이름의 구조를 가짐 (ex: activity_main)
+ - ActivityName: 액티비티 이름 / 자바 코드의 클래스가 되므로 자바 클래스 네이밍 규칙을 따름(ex: `MainActivity`)
+ - LayoutName: 레이아웃 이름 / Xml 파일로 보통 컴포넌트_이름의 구조를 가짐 (ex: `activity_main`)
  
 ## 프로젝트 구조 살펴보기
 
