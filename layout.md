@@ -20,10 +20,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+    
   <TextView android:id="@+id/text"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="TextView ~" />
+    
   <Button android:id="@+id/button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -31,7 +33,8 @@
 </LinearLayout>
 ```
 
-이러한 레이아웃 파일은 `res/layouts/`에 저장됨
+- 이러한 레이아웃 파일은 `res/layouts/`에 저장됨
+- 각 레이아웃 파일의 root는 단 하나의 ViewGroup으로 이루어져야함
 
 ```java
 public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,23 @@ public void onCreate(Bundle savedInstanceState) {
 - 몇몇 속성은 컴포넌트에 특화되어있다.(ex: TextView textSize)
  - TextView를 상속하는 컴포넌트들도 이 속성을 사용할 수 있음(ex: Button)
 
+## ID
 
+- 모든 객체에는 유니크한 정수 ID를 부여할 수 있다.
+- XML에서는 정수가 부여된 string name으로 참조함
+```xml
+android:id="@+id/my_button"
+```
+- `@+id`는 ID 리소스로 식별해야 한다는 것을 나타낸다.
+- +는 이것이 새 리소스 일때에 `R.java`에 추가하기 위함으로 쓰임
+- Android 리소스 id를 참조하려면 `@android:id`와 같이 네임스페이스를 붙이면됨
 
+```java
+Button button = (Button) findViewById(R.id.button);
+```
+- 자바 코드에서에 참조하는 법
+
+## 레이아웃 종류
+ - LinearLayout
+ - RelativeLayout
 
