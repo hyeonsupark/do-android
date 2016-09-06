@@ -12,7 +12,7 @@
  - ListView
 - Constant 관리 - String, Color, Dimension
 - Activity Intent, Result Callback
-- LifeCylce
+- LifeCycle
 - SharedPreference
 - CustomListView
 - 자바 객체지향 이해
