@@ -61,7 +61,6 @@ android:id="@+id/my_button"
 - `@+id`는 ID 리소스로 식별해야 한다는 것을 나타낸다.
 - +는 이것이 새 리소스 일때에 `R.java`에 추가하기 위함으로 쓰임
 - Android 리소스 id를 참조하려면 `@android:id`와 같이 네임스페이스를 붙이면됨
-
 ```java
 Button button = (Button) findViewById(R.id.button);
 ```
