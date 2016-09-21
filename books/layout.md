@@ -67,10 +67,18 @@ Button button = (Button) findViewById(R.id.button);
 - 자바 코드에서에 참조하는 법
 
 ## 레이아웃 종류
+
 - LinearLayout
  - 컴포넌트들을 가로 방향 또는 세로 방향으로 배치하는 레이아웃
  - 컴포넌트들이 화면을 넘어가게되면 스크롤버룰 생성함
+ - `android:orientation="vertical|horizontal"`
+ - `android:layout_weight`
 
 - RelativeLayout
  - 컴포넌트들을 서로 관련지어 배치하거나, 상위와 관련지어 배치하는 레이아웃
-
+ - `android:layout_alignParent(Top|Right|Bottom|Left)`
+ - `android:layout_center(Horizontal|Vertical)`
+ - `android:layout_centerInParent`
+ - `android:layout_(above|below)`
+ - `android:layout_to(Left|Right)Of`
+ - `android:layout_align(Top|Right|Bottom|Left)`
