@@ -17,18 +17,18 @@ import io.socket.emitter.Emitter;
 /**
  * Created by hyeonsu on 2016. 9. 30..
  */
-public class SocketManager {
+public class Chat {
     private Context context;
     private Socket socket;
 
     private String nickname;
 
     private Listener messageListener;
-    public SocketManager() {
+    public Chat() {
 
     }
 
-    public SocketManager(Context context, String nickname) {
+    public Chat(Context context, String nickname) {
         try {
             socket = IO.socket("http://ztz.kr:3333");
         } catch (URISyntaxException e) {
@@ -62,7 +62,7 @@ public class SocketManager {
     }
 
     interface Listener {
-        void receive(JSONObject object);
+        void receive(String nickname, String message, String nicknameColor, long timestamp);
     }
 
     public void setMessageListener(Listener listener) {
@@ -74,7 +74,15 @@ public class SocketManager {
                 ((Activity)context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        messageListener.receive(chatObject);
+
+                        try {
+                            messageListener.receive(chatObject.getString("nickname"),
+                                    chatObject.getString("message"),
+                                    chatObject.getString("color"),
+                                    chatObject.getLong("timestamp") * 1000);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
             }
