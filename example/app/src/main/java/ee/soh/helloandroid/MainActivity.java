@@ -1,8 +1,10 @@
 package ee.soh.helloandroid;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +17,7 @@ import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -32,19 +35,16 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences preferences;
 
     private Socket socket;
+    private SocketManager socketManager;
 
     private String nickname = "";
+    private SimpleDateFormat dateFormet;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        try {
-            socket = IO.socket("http://ztz.kr:3333");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        socket.connect();
 
         lvChat = (ListView) findViewById(R.id.lv_chat);
         btnSend = (Button) findViewById(R.id.btn_send);
@@ -58,51 +58,43 @@ public class MainActivity extends AppCompatActivity {
         preferences = getSharedPreferences("Preference", MODE_PRIVATE);
 
         nickname = preferences.getString("nickname", "Not Found");
+        socketManager = new SocketManager(this, nickname);
 
+        dateFormet = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String message = etMessage.getText().toString();
                 etMessage.setText("");
 
-                JSONObject chatObject = new JSONObject();
+                socketManager.sendMessage(message);
+
+            }
+        });
+
+        socketManager.setMessageListener(new SocketManager.Listener() {
+            @Override
+            public void receive(JSONObject chatObject) {
+                ChatNode chatNode = new ChatNode();
                 try {
-                    chatObject.put("nickname", nickname);
-                    chatObject.put("message", message.trim());
+                    chatNode.setNickname(chatObject.getString("nickname"));
+                    chatNode.setMessage(chatObject.getString("message"));
+                    chatNode.setNicknameColor(chatObject.getString("color"));
+
+                    long timestamp = chatObject.getLong("timestamp") * 1000;
+                    chatNode.setTimestamp(dateFormet.format(timestamp));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                socket.emit("send message", chatObject);
-
+                chatAdapter.add(chatNode);
             }
         });
+    }
 
-        final SimpleDateFormat dateFormet = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        socket.on("receive message", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                final JSONObject chatObject = (JSONObject) args[0];
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ChatNode chatNode = new ChatNode();
-                        try {
-                            chatNode.setNickname(chatObject.getString("nickname"));
-                            chatNode.setMessage(chatObject.getString("message"));
-                            chatNode.setNicknameColor(chatObject.getString("color"));
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        socketManager.disconnect();
 
-                            long timestamp = chatObject.getLong("timestamp") * 1000;
-                            chatNode.setTimestamp(dateFormet.format(timestamp));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        chatAdapter.add(chatNode);
-                    }
-                });
-
-
-            }
-        });
     }
 }
