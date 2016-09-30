@@ -1,10 +1,8 @@
 package ee.soh.helloandroid;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,15 +11,11 @@ import android.widget.ListView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
-import io.socket.client.IO;
 import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences preferences;
 
     private Socket socket;
-    private SocketManager socketManager;
+    private Chat chat;
 
     private String nickname = "";
     private SimpleDateFormat dateFormet;
@@ -58,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         preferences = getSharedPreferences("Preference", MODE_PRIVATE);
 
         nickname = preferences.getString("nickname", "Not Found");
-        socketManager = new SocketManager(this, nickname);
+        chat = new Chat(this, nickname);
 
         dateFormet = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         btnSend.setOnClickListener(new View.OnClickListener() {
@@ -67,25 +61,20 @@ public class MainActivity extends AppCompatActivity {
                 String message = etMessage.getText().toString();
                 etMessage.setText("");
 
-                socketManager.sendMessage(message);
+                chat.sendMessage(message);
 
             }
         });
 
-        socketManager.setMessageListener(new SocketManager.Listener() {
+        chat.setMessageListener(new Chat.Listener() {
             @Override
-            public void receive(JSONObject chatObject) {
+            public void receive(String nickname, String message, String nicknameColor, long timestamp) {
                 ChatNode chatNode = new ChatNode();
-                try {
-                    chatNode.setNickname(chatObject.getString("nickname"));
-                    chatNode.setMessage(chatObject.getString("message"));
-                    chatNode.setNicknameColor(chatObject.getString("color"));
+                chatNode.setNickname(nickname);
+                chatNode.setMessage(message);
+                chatNode.setNicknameColor(nicknameColor);
 
-                    long timestamp = chatObject.getLong("timestamp") * 1000;
-                    chatNode.setTimestamp(dateFormet.format(timestamp));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                chatNode.setTimestamp(dateFormet.format(timestamp));
                 chatAdapter.add(chatNode);
             }
         });
@@ -94,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        socketManager.disconnect();
+        chat.disconnect();
 
     }
 }
