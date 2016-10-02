@@ -2,8 +2,6 @@ package ee.soh.helloandroid;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +39,11 @@ public class Chat {
         this.nickname = nickname;
 
     }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
 
     public void disconnect() {
         if(socket != null && socket.connected()) {
