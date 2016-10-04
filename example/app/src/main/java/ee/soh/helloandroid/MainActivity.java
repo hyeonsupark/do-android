@@ -1,21 +1,21 @@
 package ee.soh.helloandroid;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-
-import io.socket.client.Socket;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences preferences;
 
-    private Socket socket;
     private Chat chat;
 
     private String nickname = "";
@@ -85,5 +84,35 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         chat.disconnect();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.setting:
+                Intent intent = new Intent(MainActivity.this, SetNicknameActivity.class);
+                intent.putExtra("isFromMain", true);
+                startActivityForResult(intent, 100);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 100 && resultCode == 200) {
+            String nickname = data.getStringExtra("nickname");
+            chat.setNickname(nickname);
+        }
     }
 }
