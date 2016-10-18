@@ -8,7 +8,7 @@
 * [뷰그룹과 뷰](books/view-and-viewgroup.md)
 * [리소스 관리](books/resource.md)
 * [Activity]()
-    * [Intent]()
+    * [Intent](books/intent.md)
     * [Result Callback]()
 * [LifeCycle]()
 * [SharedPreference]()
