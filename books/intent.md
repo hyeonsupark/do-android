@@ -11,7 +11,7 @@
 	 - URL 열기
 	 - 문자 전송
 
-###액티비티를 전환해보자
+### 액티비티를 전환해보자
 
 우선 새로운 액티비티로의 전환을 위해 레이아웃과 자바 파일을 만들어 준다.
 
@@ -66,6 +66,38 @@ startActivity(intent);
  - `getApplicationContext()` : Intent를 호출하고 있는 위치로 `MainActivity`를 뜻함
  - `SecondActivity.class`의 경우에는 Intent로 호출하고자 하는 요소(액티비티)
  - 결과 : `SecondActivity`가 실행이 된다.
-<br />
 
-###Intent로 다양한 동작 수행
+
+### Intent로 다양한 동작 수행
+
+- 전화 걸기
+``` java
+Intent intent = new Intent(Intent.ACTION_CALL);
+intent.setData(Uri.parse("tel:" + phoneNumber));
+```
+
+
+- sms 전송하기
+```java
+Intent intent = new Intent(Intent.ACTION_SENDTO);
+intent.setData(Uri.parse("sms:" + phoneNumber));
+```
+
+
+- 주소록에 저장하기
+```java
+Intent intent = new Intent(Intent.ACTION_INSERT);
+intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+intent.putExtra(ContactsContract.Intents.Insert.NAME, name);
+intent.putExtra(ContactsContract.Intents.Insert.PHONE, phoneNumber);
+```
+
+- 이메일 보내기
+```java
+Intent intent = new Intent(Intent.ACTION_SENDTO);
+intent.setType("text/plain");
+intent.putExtra(Intent.EXTRA_SUBJECT, "제목");
+intent.putExtra(Intent.EXTRA_TEXT, "내용");
+intent.setData(Uri.parse("mailto:" + email));
+intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+```
