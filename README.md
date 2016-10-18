@@ -17,4 +17,4 @@
 - CustomListView
 - 자바 객체지향 이해
 
-Contributed by @LNTCS
+Contributed by **[@LNTCS](https://github.com/LNTCS)**
