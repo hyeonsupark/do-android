@@ -9,7 +9,7 @@
 * [리소스 관리](books/resource.md)
 * [Activity]()
     * [Intent](books/intent.md)
-    * [Result Callback](books/result-callback.md)
+    * [Result Callback](books/activity-result.md)
 * [LifeCycle]()
 * [SharedPreference]()
 * [CustomListView]()
