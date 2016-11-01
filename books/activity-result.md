@@ -33,5 +33,5 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 } 
 ```
 
-B 액티비티를 실행한 A 액티비티에서는 `onActivityResult()` 메소드를 오버라이딩 한다.
+B 액티비티를 실행한 A 액티비티에서는 `onActivityResult()` 메소드를 오버라이딩 한다.  
 액티비티를 실행할 때 사용한 `requestCode`와 액티비티를 종료할 때 사용한 `resultCode`를 이용해서 원하는 행동을 하면 된다.
